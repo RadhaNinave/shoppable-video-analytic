@@ -1,0 +1,369 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 48px 24px;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ================================
+   Header
+================================ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 56px; /* Increased to push the table down */
+}
+
+.title {
+  margin: 0;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Right side of header */
+.header > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ================================
+   Dashboard Card
+================================ */
+
+.card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.03),
+    0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+/* ================================
+   Table
+================================ */
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.analyticsTable {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: #ffffff;
+  table-layout: fixed; /* Forces equally divided columns natively */
+}
+
+/* Generous table spacing */
+.analyticsTable th,
+.analyticsTable td {
+  padding: 22px 24px;
+}
+
+/* ================================
+   Table Headers
+================================ */
+
+.analyticsTable th {
+  background: #fafbfc;
+  border-bottom: 2px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ================================
+   Table Text Alignment
+================================ */
+
+/* Video Title + Product */
+.analyticsTable th:nth-child(1),
+.analyticsTable td:nth-child(1),
+.analyticsTable th:nth-child(2),
+.analyticsTable td:nth-child(2) {
+  text-align: left;
+}
+
+/* Metrics (Views, Clicks, Carts, Conversion) */
+.analyticsTable th:nth-child(n + 3),
+.analyticsTable td:nth-child(n + 3) {
+  text-align: center;
+}
+
+/* ================================
+   Table Rows
+================================ */
+
+.analyticsTable tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.15s ease;
+}
+
+.analyticsTable tbody tr:hover {
+  background-color: #f1f5f9; /* Visible hover effect */
+}
+
+.analyticsTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.analyticsTable td {
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Video title */
+.analyticsTable td:first-child {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Product */
+.analyticsTable td:nth-child(2) {
+  color: #64748b;
+}
+
+/* ================================
+   Simulate Traffic Button
+================================ */
+
+.header button {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow:
+    0 2px 5px rgba(37, 99, 235, 0.2),
+    0 6px 12px rgba(37, 99, 235, 0.12);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.header button:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow:
+    0 3px 7px rgba(37, 99, 235, 0.24),
+    0 8px 16px rgba(37, 99, 235, 0.14);
+  transform: translateY(-1px);
+}
+
+.header button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.header button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ================================
+   Simulation Success Message
+================================ */
+
+.simMessage {
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* ================================
+   Loading / Error
+================================ */
+
+.status {
+  padding: 56px 24px;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+}
+
+.error {
+  padding: 56px 24px;
+  color: #dc2626;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ================================
+   Empty State
+================================ */
+
+.emptyState {
+  padding: 48px 20px !important;
+  color: #94a3b8 !important;
+  text-align: center !important;
+}
+
+/* ================================
+   Pagination
+================================ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.paginationButton {
+  min-width: 88px;
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.paginationButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pageNumber {
+  min-width: 70px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ================================
+   Accessibility
+================================ */
+
+.header button:focus-visible,
+.paginationButton:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.25);
+  outline-offset: 2px;
+}
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 32px 16px;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .header > div:last-child {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .analyticsTable {
+    min-width: 760px;
+  }
+
+  .analyticsTable th,
+  .analyticsTable td {
+    padding: 22px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 24px 10px;
+  }
+
+  .title {
+    font-size: 23px;
+  }
+
+  .header > div:last-child {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header button {
+    width: 100%;
+  }
+
+  .simMessage {
+    white-space: normal;
+  }
+
+  .pagination {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .paginationButton {
+    min-width: 80px;
+    padding: 8px 10px;
+  }
+}

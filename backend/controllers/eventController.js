@@ -55,6 +55,7 @@ const recordEvent = (req, res) => {
 };
 
 // GET /api/analytics/videos
+// GET /api/analytics/videos
 const getAnalytics = (req, res) => {
   let { limit = 10, offset = 0 } = req.query;
 
@@ -70,61 +71,96 @@ const getAnalytics = (req, res) => {
     offset = 0;
   }
 
-  const sql = `
-    SELECT
-      v.id,
-      v.productId,
-      v.videoUrl,
-      v.title,
-
-      COUNT(CASE
-        WHEN e.eventType = 'view'
-        THEN 1
-      END) AS views,
-
-      COUNT(CASE
-        WHEN e.eventType = 'click'
-        THEN 1
-      END) AS clicks,
-
-      COUNT(CASE
-        WHEN e.eventType = 'add_to_cart'
-        THEN 1
-      END) AS conversions
-
-    FROM Videos v
-
-    LEFT JOIN EngagementEvents e
-      ON v.id = e.videoId
-
-    GROUP BY
-      v.id,
-      v.productId,
-      v.videoUrl,
-      v.title
-
-    ORDER BY v.id
-
-    LIMIT ? OFFSET ?
+  // Query 1: Get total number of videos
+  const countSql = `
+    SELECT COUNT(*) AS total
+    FROM Videos
   `;
 
-  db.all(sql, [limit, offset], (err, rows) => {
-    if (err) {
-      console.error("Error fetching analytics:", err.message);
+  db.get(countSql, [], (countErr, countResult) => {
+    if (countErr) {
+      console.error("Error fetching total:", countErr.message);
 
       return res.status(500).json({
         success: false,
-        message: "Failed to fetch analytics",
+        message: "Failed to fetch total videos",
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      pagination: {
-        limit,
-        offset,
-      },
-      data: rows,
+    const total = countResult.total;
+
+    // Query 2: Get paginated analytics
+    const sql = `
+      SELECT
+        v.id,
+        v.title,
+        v.videoUrl,
+        v.productId,
+        p.name AS productName,
+
+        COUNT(CASE
+          WHEN e.eventType = 'view'
+          THEN 1
+        END) AS views,
+
+        COUNT(CASE
+          WHEN e.eventType = 'click'
+          THEN 1
+        END) AS clicks,
+
+        COUNT(CASE
+          WHEN e.eventType = 'add_to_cart'
+          THEN 1
+        END) AS conversions
+
+      FROM Videos v
+
+      LEFT JOIN Products p
+        ON v.productId = p.id
+
+      LEFT JOIN EngagementEvents e
+        ON v.id = e.videoId
+
+      GROUP BY
+        v.id,
+        v.title,
+        v.videoUrl,
+        v.productId,
+        p.name
+
+      ORDER BY v.id
+
+      LIMIT ? OFFSET ?
+    `;
+
+    db.all(sql, [limit, offset], (err, rows) => {
+      if (err) {
+        console.error("Error fetching analytics:", err.message);
+
+        return res.status(500).json({
+          success: false,
+          message: "Failed to fetch analytics",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+
+        pagination: {
+          total,
+          limit,
+          offset,
+
+          // Optional but very useful
+          currentPage: Math.floor(offset / limit) + 1,
+          totalPages: Math.ceil(total / limit),
+
+          hasNextPage: offset + limit < total,
+          hasPreviousPage: offset > 0,
+        },
+
+        data: rows,
+      });
     });
   });
 };
