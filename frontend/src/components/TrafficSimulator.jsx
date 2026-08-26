@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+const API_URL = `${import.meta.env.VITE_API_HOST}/api/events`;
+
 const TrafficSimulator = ({ videos = [], onEventRecorded }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -23,7 +25,7 @@ const TrafficSimulator = ({ videos = [], onEventRecorded }) => {
         eventTypes[Math.floor(Math.random() * eventTypes.length)];
 
       const response = await fetch(
-        "http://localhost:5000/api/events",
+        API_URL,
         {
           method: "POST",
           headers: {
